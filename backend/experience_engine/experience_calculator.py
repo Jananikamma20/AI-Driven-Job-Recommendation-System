@@ -7,7 +7,6 @@ class ExperienceCalculator:
 
         self.today = datetime.today()
 
-    ###################################################
 
     def calculate(self, start_date, end_date):
 
