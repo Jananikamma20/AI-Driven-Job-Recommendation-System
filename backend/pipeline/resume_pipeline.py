@@ -3,6 +3,7 @@ from backend.experience_engine.experience_engine import ExperienceEngine
 from backend.skill_engine.skill_engine import SkillEngine
 from backend.education_engine.education_engine import EducationEngine
 from backend.project_engine.project_engine import ProjectEngine
+from backend.certification_engine.certification_engine import CertificationEngine
 
 
 class ResumePipeline:
@@ -18,6 +19,8 @@ class ResumePipeline:
         self.education_engine = EducationEngine()
 
         self.project_engine = ProjectEngine()
+
+        self.certification_engine = CertificationEngine()
 
 
     def process_resume(self, file_path):
@@ -40,6 +43,10 @@ class ResumePipeline:
             cleaned_text
         )
 
+        certifications = self.certification_engine.extract(
+            cleaned_text
+        )
+
         return {
 
             "cleaned_text": cleaned_text,
@@ -50,6 +57,8 @@ class ResumePipeline:
 
             "education": education,
 
-            "projects": projects
+            "projects": projects,
+
+            "certifications": certifications
 
         }

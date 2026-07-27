@@ -7,6 +7,13 @@ resume_path = "Data/Resumes/resume_pdfs/resume.pdf"
 result = pipeline.process_resume(resume_path)
 
 print("=" * 60)
+print("CLEANED RESUME")
+print("=" * 60)
+print(result["cleaned_text"][:1000])
+
+print("\n")
+
+print("=" * 60)
 print("EXPERIENCE")
 print("=" * 60)
 print(result["experience"])
@@ -24,3 +31,17 @@ print("=" * 60)
 print("EDUCATION")
 print("=" * 60)
 print(result["education"])
+
+print("\n")
+
+print("=" * 60)
+print("PROJECTS")
+print("=" * 60)
+print(result["projects"])
+
+print("\n")
+
+print("=" * 60)
+print("CERTIFICATIONS")
+print("=" * 60)
+print(result["certifications"])
