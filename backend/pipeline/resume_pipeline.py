@@ -2,6 +2,7 @@ from backend.resume_parser.parser import ResumeParser
 from backend.experience_engine.experience_engine import ExperienceEngine
 from backend.skill_engine.skill_engine import SkillEngine
 from backend.education_engine.education_engine import EducationEngine
+from backend.project_engine.project_engine import ProjectEngine
 
 
 class ResumePipeline:
@@ -15,6 +16,8 @@ class ResumePipeline:
         self.skill_engine = SkillEngine()
 
         self.education_engine = EducationEngine()
+
+        self.project_engine = ProjectEngine()
 
 
     def process_resume(self, file_path):
@@ -33,6 +36,10 @@ class ResumePipeline:
             cleaned_text
         )
 
+        projects = self.project_engine.extract(
+            cleaned_text
+        )
+
         return {
 
             "cleaned_text": cleaned_text,
@@ -41,6 +48,8 @@ class ResumePipeline:
 
             "skills": skills,
 
-            "education": education
+            "education": education,
+
+            "projects": projects
 
         }

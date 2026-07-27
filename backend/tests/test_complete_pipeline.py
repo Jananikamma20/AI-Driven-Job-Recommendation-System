@@ -2,7 +2,7 @@ from backend.pipeline.resume_pipeline import ResumePipeline
 
 pipeline = ResumePipeline()
 
-resume_path = "Data/Resumes/resume_pdfs/ENGINEERING/54227873.pdf"
+resume_path = "Data/Resumes/resume_pdfs/resume.pdf"
 
 result = pipeline.process_resume(resume_path)
 
