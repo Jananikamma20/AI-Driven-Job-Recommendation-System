@@ -45,3 +45,11 @@ print("=" * 60)
 print("CERTIFICATIONS")
 print("=" * 60)
 print(result["certifications"])
+
+print("\n")
+
+print("=" * 60)
+print("CANDIDATE PROFILE")
+print("=" * 60)
+
+print(result["candidate_profile"])

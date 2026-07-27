@@ -4,6 +4,7 @@ from backend.skill_engine.skill_engine import SkillEngine
 from backend.education_engine.education_engine import EducationEngine
 from backend.project_engine.project_engine import ProjectEngine
 from backend.certification_engine.certification_engine import CertificationEngine
+from backend.candidate_profile.candidate_profile_engine import CandidateProfileEngine
 
 
 class ResumePipeline:
@@ -21,6 +22,8 @@ class ResumePipeline:
         self.project_engine = ProjectEngine()
 
         self.certification_engine = CertificationEngine()
+
+        self.profile_engine = CandidateProfileEngine()
 
 
     def process_resume(self, file_path):
@@ -46,7 +49,19 @@ class ResumePipeline:
         certifications = self.certification_engine.extract(
             cleaned_text
         )
+        candidate_profile = self.profile_engine.build(
 
+            experience,
+
+            skills,
+
+            education,
+
+            projects,
+
+            certifications
+
+        )
         return {
 
             "cleaned_text": cleaned_text,
@@ -59,6 +74,8 @@ class ResumePipeline:
 
             "projects": projects,
 
-            "certifications": certifications
+            "certifications": certifications,
+
+            "candidate_profile": candidate_profile
 
         }
