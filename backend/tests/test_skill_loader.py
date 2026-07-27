@@ -2,7 +2,7 @@ from backend.skill_engine.skill_loader import SkillLoader
 
 loader = SkillLoader()
 
-skills = loader.load("KnowledgeBase/skills.csv")
+skills = loader.load("backend/knowledgebase/skills.csv")
 
 print("\nTOTAL SKILLS:", len(skills))
 

@@ -10,7 +10,7 @@ class SkillDetector:
         self.loader = SkillLoader()
 
         self.skills = self.loader.load(
-            "KnowledgeBase/skills.csv"
+            "backend/knowledgebase/skills.csv"
         )
 
 
