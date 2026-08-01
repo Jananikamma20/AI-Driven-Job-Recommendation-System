@@ -6,7 +6,6 @@ class ProjectDetector:
     def __init__(self):
 
         self.start_keywords = [
-
             "projects",
             "project",
             "academic projects",
@@ -14,11 +13,9 @@ class ProjectDetector:
             "minor projects",
             "internship projects",
             "capstone projects"
-
         ]
 
         self.end_keywords = [
-
             "skills",
             "education",
             "experience",
@@ -31,9 +28,7 @@ class ProjectDetector:
             "awards",
             "personal information",
             "references"
-
         ]
-
 
     def extract(self, resume_text):
 
@@ -65,4 +60,26 @@ class ProjectDetector:
 
         project_section = resume_text[start:end].strip()
 
-        return [project_section]
+        # Remove heading
+        project_section = re.sub(
+            r"(?i)^projects?\s*",
+            "",
+            project_section
+        ).strip()
+
+        # Split projects using common separators
+        projects = re.split(
+            r"\n\s*\n|\n(?=[A-Z])|(?=Tech Stack)|(?=Project\s*\d+)",
+            project_section
+        )
+
+        cleaned_projects = []
+
+        for project in projects:
+
+            project = project.strip()
+
+            if len(project) > 30:
+                cleaned_projects.append(project)
+
+        return cleaned_projects

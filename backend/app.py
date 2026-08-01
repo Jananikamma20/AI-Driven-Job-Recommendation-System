@@ -1,9 +1,13 @@
 from flask import Flask
+from flask_cors import CORS
 
 from backend.routes.resume_routes import resume_bp
 from backend.routes.recommendation_routes import recommendation_bp
 
 app = Flask(__name__)
+
+# Enable CORS
+CORS(app)
 
 app.register_blueprint(resume_bp)
 app.register_blueprint(recommendation_bp)

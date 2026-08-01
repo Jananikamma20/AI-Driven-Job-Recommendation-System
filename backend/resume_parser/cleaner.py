@@ -6,33 +6,35 @@ class ResumeCleaner:
     def __init__(self):
         pass
 
-
     def clean(self, text):
 
         if not text:
             return ""
 
-        # Convert to lowercase
         text = text.lower()
 
-        # Replace tabs with spaces
         text = text.replace("\t", " ")
 
-        # Remove unwanted characters
         text = re.sub(
-            r"[^a-z0-9\s@.+#/-]",
+            r"[^a-z0-9\n\s@.+#/-]",
             " ",
             text
         )
 
-        # Remove multiple spaces
+        # Remove extra spaces but keep new lines
         text = re.sub(
-            r"\s+",
+            r"[ ]+",
             " ",
             text
         )
 
-        # Remove leading and trailing spaces
+        # Remove too many blank lines
+        text = re.sub(
+            r"\n+",
+            "\n",
+            text
+        )
+
         text = text.strip()
 
         return text
