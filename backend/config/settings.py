@@ -1,0 +1,9 @@
+UPLOAD_FOLDER = "uploads"
+
+TOP_K_RECOMMENDATIONS = 5
+
+ALLOWED_EXTENSIONS = [
+
+    "pdf"
+
+]
