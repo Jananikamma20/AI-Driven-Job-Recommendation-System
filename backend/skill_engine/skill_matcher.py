@@ -4,81 +4,47 @@ class SkillMatcher:
 
         pass
 
-
     def match(
 
             self,
 
-            candidate_skills,
+            resume_skills,
 
             job_skills
 
     ):
 
-        candidate = set(
+        resume = set(resume_skills)
 
-            skill.lower()
+        job = set(job_skills)
 
-            for skill in candidate_skills
-
+        matched = list(
+            resume.intersection(job)
         )
 
-        job = set(
-
-            skill.lower()
-
-            for skill in job_skills
-
+        missing = list(
+            job - resume
         )
 
-        matched = sorted(
+        score = 0
 
-            list(
+        if len(job) > 0:
 
-                candidate.intersection(job)
-
-            )
-
-        )
-
-        missing = sorted(
-
-            list(
-
-                job.difference(candidate)
-
-            )
-
-        )
-
-        if len(job) == 0:
-
-            percentage = 0
-
-        else:
-
-            percentage = round(
-
-                (
-
-                    len(matched)
-
-                    /
-
-                    len(job)
-
-                ) * 100,
-
-                2
-
-            )
+            score = (
+                len(matched)
+                /
+                len(job)
+            ) * 100
 
         return {
 
-            "matched_skills": matched,
+            "matched_skills":
+                sorted(matched),
 
-            "missing_skills": missing,
+            "missing_skills":
+                sorted(missing),
 
-            "match_percentage": percentage
+            "skill_score":
+                round(score, 2)
 
         }

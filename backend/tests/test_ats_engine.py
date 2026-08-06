@@ -2,74 +2,107 @@ from backend.ats_engine.ats_engine import ATSEngine
 
 engine = ATSEngine()
 
-candidate = {
+resume = {
 
-    "education": {
+    "skills": [
 
-        "normalized_degrees": [
+        "Python",
 
-            "Bachelor of Technology"
+        "SQL",
 
-        ]
-
-    },
-
-    "projects": {
-
-        "projects": [
-
-            "Project 1",
-
-            "Project 2"
-
-        ]
-
-    },
-
-    "certifications": {
-
-        "certifications": [
-
-            "AWS",
-
-            "NPTEL"
-
-        ]
-
-    }
-
-}
-
-skill_gap = {
-
-    "matched_skills": [
-
-        "python",
-
-        "sql",
-
-        "tableau"
+        "Pandas"
 
     ],
 
-    "missing_skills": [
+    "degrees": [
 
-        "docker",
+        "B.Tech"
 
-        "aws"
+    ],
+
+    "experience": [
+
+        "2-4 years"
+
+    ],
+
+    "certifications": [
+
+        "IBM Data Science"
 
     ]
 
 }
 
-score = engine.calculate(
+job = {
 
-    candidate,
+    "title": "Data Analyst",
 
-    skill_gap
+    "company": "Google",
+
+    "skills": [
+
+        "Python",
+
+        "SQL",
+
+        "Power BI",
+
+        "Machine Learning"
+
+    ],
+
+    "degrees": [
+
+        "B.Tech"
+
+    ],
+
+    "experience": [
+
+        "2-4 years"
+
+    ],
+
+    "certifications": [
+
+        "IBM Data Science"
+
+    ]
+
+}
+
+result = engine.calculate_ats_score(
+
+    resume,
+
+    job
 
 )
 
+print("=" * 60)
+print("ATS ENGINE TEST")
+print("=" * 60)
+
 print()
 
-print("ATS SCORE :", score)
+print("ATS Score")
+print(result["ats_score"])
+
+print()
+
+print("Rating")
+print(result["rating"])
+
+print()
+
+print("Missing Keywords")
+print(result["missing_keywords"])
+
+print()
+
+print("Suggestions")
+
+for suggestion in result["suggestions"]:
+
+    print("-", suggestion)

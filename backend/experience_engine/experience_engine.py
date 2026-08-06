@@ -1,74 +1,165 @@
-from backend.experience_engine.date_detector import DateDetector
-from backend.experience_engine.date_normalizer import DateNormalizer
-from backend.experience_engine.experience_calculator import ExperienceCalculator
-from backend.experience_engine.designation_detector import DesignationDetector
-from backend.experience_engine.company_detector import CompanyDetector
+import re
 
 
 class ExperienceEngine:
 
     def __init__(self):
 
-        self.date_detector = DateDetector()
-        self.date_normalizer = DateNormalizer()
-        self.experience_calculator = ExperienceCalculator()
-        self.designation_detector = DesignationDetector()
-        self.company_detector = CompanyDetector()
+        pass
 
-    def extract(self, resume_text):
+    # ---------------------------------
+    # Extract Maximum Years of Experience
+    # ---------------------------------
+    def extract_years(
 
-        # Detect all dates
-        detected_dates = self.date_detector.detect_dates(resume_text)
+            self,
 
-        # Extract companies
-        companies = self.company_detector.extract(resume_text)
+            experience_list
 
-        # Extract designations
-        designations = self.designation_detector.extract(resume_text)
+    ):
 
-        # Store experience information
-        experience_details = []
+        if not experience_list:
 
-        # Supported date ranges
-        range_keys = [
-            "MONTH_YEAR_RANGE",
-            "MONTH_PRESENT"
-        ]
+            return 0
 
-        for key in range_keys:
+        max_years = 0
 
-            for value in detected_dates.get(key, []):
+        for exp in experience_list:
 
-                if " - " not in value:
-                    continue
+            numbers = re.findall(
 
-                start, end = value.split(" - ")
+                r"\d+",
 
-                start = self.date_normalizer.normalize(start.strip())
-                end = self.date_normalizer.normalize(end.strip())
+                exp
 
-                if start is None or end is None:
-                    continue
+            )
 
-                experience = self.experience_calculator.calculate(
-                    start,
-                    end
+            if numbers:
+
+                years = max(
+
+                    map(
+
+                        int,
+
+                        numbers
+
+                    )
+
                 )
 
-                experience_details.append({
+                max_years = max(
 
-                    "start_date": start,
-                    "end_date": end,
-                    "experience": experience
+                    max_years,
 
-                })
+                    years
+
+                )
+
+        return max_years
+
+    # ---------------------------------
+    # Compare Resume and Job Experience
+    # ---------------------------------
+    def compare_experience(
+
+            self,
+
+            resume_experience,
+
+            job_experience
+
+    ):
+
+        resume_years = self.extract_years(
+
+            resume_experience
+
+        )
+
+        job_years = self.extract_years(
+
+            job_experience
+
+        )
+
+        if resume_years >= job_years:
+
+            experience_match = True
+
+            experience_score = 100
+
+        else:
+
+            experience_match = False
+
+            if job_years == 0:
+
+                experience_score = 0
+
+            else:
+
+                experience_score = (
+
+                    resume_years
+
+                    /
+
+                    job_years
+
+                ) * 100
 
         return {
 
-            "companies": companies,
+            "resume_years": resume_years,
 
-            "designations": designations,
+            "job_years": job_years,
 
-            "date_ranges": experience_details
+            "experience_match": experience_match,
+
+            "experience_score": round(
+
+                experience_score,
+
+                2
+
+            )
 
         }
+
+    # ---------------------------------
+    # Complete Experience Analysis
+    # ---------------------------------
+    def analyze(
+
+            self,
+
+            resume,
+
+            job
+
+    ):
+
+        resume_experience = resume.get(
+
+            "experience",
+
+            []
+
+        )
+
+        job_experience = job.get(
+
+            "experience",
+
+            []
+
+        )
+
+        return self.compare_experience(
+
+            resume_experience,
+
+            job_experience
+
+        )

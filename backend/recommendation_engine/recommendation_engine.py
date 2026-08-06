@@ -1,85 +1,166 @@
-from backend.recommendation_engine.recommendation_validator import RecommendationValidator
+from backend.skill_engine.skill_engine import SkillEngine
+from backend.matching_engine.matcher import ResumeJobMatcher
+from backend.skill_gap_engine.skill_gap_engine import SkillGapEngine
+from backend.course_engine.course_engine import CourseEngine
+from backend.ats_engine.ats_engine import ATSEngine
+from backend.project_engine.project_engine import ProjectEngine
+from backend.experience_engine.experience_engine import ExperienceEngine
+from backend.education_engine.education_engine import EducationEngine
+from backend.certification_engine.certification_engine import CertificationEngine
 
 
 class RecommendationEngine:
 
     def __init__(self):
 
-        self.validator = RecommendationValidator()
+        self.skill_engine = SkillEngine()
 
+        self.matcher = ResumeJobMatcher()
 
-    def recommend(
+        self.skill_gap_engine = SkillGapEngine()
 
-        self,
+        self.course_engine = CourseEngine()
 
-        candidate_profile,
+        self.ats_engine = ATSEngine()
 
-        jobs,
+        self.project_engine = ProjectEngine()
 
-        top_k=5
+        self.experience_engine = ExperienceEngine()
+
+        self.education_engine = EducationEngine()
+
+        self.certification_engine = CertificationEngine()
+
+    # ---------------------------------
+    # Complete Resume Analysis
+    # ---------------------------------
+
+    def analyze(
+
+            self,
+
+            resume,
+
+            job
 
     ):
 
-        candidate_skills = []
+        # Skill Analysis
 
-        if "normalized_skills" in candidate_profile["skills"]:
+        skill_analysis = self.skill_engine.analyze(
 
-            candidate_skills = [
+            resume,
 
-                skill.lower()
-
-                for skill in
-
-                candidate_profile["skills"]["normalized_skills"]
-
-            ]
-
-        recommendations = []
-
-        for _, job in jobs.iterrows():
-
-            score = 0
-
-            text = str(job).lower()
-
-            for skill in candidate_skills:
-
-                if skill in text:
-
-                    score += 1
-
-            recommendations.append(
-
-                {
-
-                    "score": score,
-
-                    "job": job.to_dict()
-
-                }
-
-            )
-
-        recommendations = sorted(
-
-            recommendations,
-
-            key=lambda x: x["score"],
-
-            reverse=True
+            job
 
         )
 
-        valid, invalid = self.validator.validate(
+        # Resume-Job Matching
 
-            recommendations
+        matching = self.matcher.match(
+
+            resume,
+
+            job
+
+        )
+
+        # Skill Gap
+
+        skill_gap = self.skill_gap_engine.analyze_skill_gap(
+
+            matching
+
+        )
+
+        # Course Recommendation
+
+        recommended_courses = self.course_engine.recommend_courses(
+
+            skill_gap["missing_skills"]
+
+        )
+
+        # ATS Analysis
+
+        ats = self.ats_engine.calculate_ats_score(
+
+            resume,
+
+            job
+
+        )
+
+        # Experience Analysis
+
+        experience = self.experience_engine.analyze(
+
+            resume,
+
+            job
+
+        )
+
+        # Education Analysis
+
+        education = self.education_engine.analyze(
+
+            resume,
+
+            job
+
+        )
+
+        # Certification Analysis
+
+        certification = self.certification_engine.analyze(
+
+            resume,
+
+            job
+
+        )
+
+        # Project Analysis
+
+        projects = self.project_engine.match_projects(
+
+            resume.get(
+
+                "projects",
+
+                []
+
+            ),
+
+            job.get(
+
+                "description",
+
+                ""
+
+            )
 
         )
 
         return {
 
-            "recommended_jobs": valid[:top_k],
+            "skill_analysis": skill_analysis,
 
-            "rejected_jobs": invalid
+            "matching": matching,
+
+            "skill_gap": skill_gap,
+
+            "recommended_courses": recommended_courses,
+
+            "ats": ats,
+
+            "experience": experience,
+
+            "education": education,
+
+            "certification": certification,
+
+            "projects": projects
 
         }

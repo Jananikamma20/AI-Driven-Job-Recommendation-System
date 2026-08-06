@@ -1,28 +1,45 @@
-from backend.course_engine.course_recommender import CourseRecommender
-from backend.course_engine.course_validator import CourseValidator
-
+import pandas as pd
 
 class CourseEngine:
 
     def __init__(self):
 
-        self.recommender = CourseRecommender()
-
-        self.validator = CourseValidator()
-
-
-    def recommend(self, missing_skills):
-
-        courses = self.recommender.recommend(
-
-            missing_skills
-
+        self.courses_df = pd.read_csv(
+            "Data/KnowledgeBase/Courses/courses.csv"
         )
 
-        courses = self.validator.validate(
+    def recommend_courses(self, missing_skills):
+        if not missing_skills:
 
-            courses
+            return []
 
-        )
+        recommended_courses = []
 
-        return courses
+        for skill in missing_skills:
+            matches = self.courses_df[
+
+                self.courses_df["skill_name"]
+
+                .str.lower()
+
+                == skill.lower()
+
+            ]
+
+            for _, row in matches.iterrows():
+                recommended_courses.append(
+
+                    {
+
+                        "skill": skill,
+
+                        "course_name": row["course_name"],
+
+                        "provider": row["provider"],
+
+                        "level": row["level"]
+
+                    }
+
+                )
+        return recommended_courses

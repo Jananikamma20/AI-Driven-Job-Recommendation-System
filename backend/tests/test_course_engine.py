@@ -4,24 +4,22 @@ engine = CourseEngine()
 
 missing_skills = [
 
-    "aws",
+    "Python",
 
-    "docker",
-
-    "machine learning",
-
-    "power bi"
+    "Power BI"
 
 ]
 
-courses = engine.recommend(
+courses = engine.recommend_courses(
 
     missing_skills
 
 )
 
-print("\nRecommended Courses\n")
+print("=" * 60)
+print("COURSE ENGINE TEST")
+print("=" * 60)
 
-for skill, course in courses.items():
+for course in courses:
 
-    print(f"{skill} --> {course}")
+    print(course)

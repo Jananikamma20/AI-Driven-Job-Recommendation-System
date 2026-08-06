@@ -1,34 +1,92 @@
-from backend.project_engine.project_detector import ProjectDetector
-from backend.project_engine.project_validator import ProjectValidator
-
-
 class ProjectEngine:
 
     def __init__(self):
 
-        self.detector = ProjectDetector()
+        pass
 
-        self.validator = ProjectValidator()
+    # ---------------------------------
+    # Match Resume Projects with Job
+    # ---------------------------------
+    def match_projects(
 
+            self,
 
-    def extract(self, resume_text):
+            resume_projects,
 
-        detected_projects = self.detector.extract(
-            resume_text
-        )
+            job_text
 
-        valid_projects, invalid_projects = (
+    ):
 
-            self.validator.validate(
-                detected_projects
-            )
+        if not resume_projects:
 
-        )
+            return {
+
+                "matched_projects": [],
+
+                "missing_projects": [],
+
+                "project_score": 0
+
+            }
+
+        if not job_text:
+
+            return {
+
+                "matched_projects": [],
+
+                "missing_projects": resume_projects,
+
+                "project_score": 0
+
+            }
+
+        matched_projects = []
+
+        missing_projects = []
+
+        job_text = job_text.lower()
+
+        for project in resume_projects:
+
+            if project.lower() in job_text:
+
+                matched_projects.append(
+
+                    project
+
+                )
+
+            else:
+
+                missing_projects.append(
+
+                    project
+
+                )
+
+        score = (
+
+            len(matched_projects)
+
+            /
+
+            len(resume_projects)
+
+        ) * 100
 
         return {
 
-            "projects": valid_projects,
+            "matched_projects":
 
-            "invalid_projects": invalid_projects
+            sorted(matched_projects),
+
+            "missing_projects":
+
+            sorted(missing_projects),
+
+            "project_score":
+
+            round(score, 2)
 
         }

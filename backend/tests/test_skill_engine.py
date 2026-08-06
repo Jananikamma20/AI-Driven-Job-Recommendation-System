@@ -1,28 +1,72 @@
-from backend.resume_parser.parser import ResumeParser
 from backend.skill_engine.skill_engine import SkillEngine
-
-parser = ResumeParser()
 
 engine = SkillEngine()
 
-resume = parser.parse(
-    "Data/Resumes/resume_pdfs/ENGINEERING/54227873.pdf"
+resume = {
+
+    "skills": [
+
+        "Python",
+
+        "SQL",
+
+        "Pandas"
+
+    ]
+
+}
+
+job = {
+
+    "skills": [
+
+        "Python",
+
+        "SQL",
+
+        "Pandas",
+
+        "Power BI",
+
+        "Machine Learning"
+
+    ]
+
+}
+
+result = engine.analyze(
+
+    resume,
+
+    job
+
 )
 
-result = engine.extract(resume)
+print("=" * 60)
+print("SKILL ENGINE TEST")
+print("=" * 60)
 
-print("\n==============================")
-print("DETECTED SKILLS")
-print("==============================")
+print()
 
-for skill in result["detected_skills"]:
+print("Total Resume Skills")
+print(result["total_resume_skills"])
 
-    print(skill)
+print()
 
-print("\n==============================")
-print("NORMALIZED SKILLS")
-print("==============================")
+print("Total Job Skills")
+print(result["total_job_skills"])
 
-for skill in result["normalized_skills"]:
+print()
 
-    print(skill)
+print("Matched Skills")
+print(result["matched_skills"])
+
+print()
+
+print("Missing Skills")
+print(result["missing_skills"])
+
+print()
+
+print("Skill Score")
+print(result["skill_score"])

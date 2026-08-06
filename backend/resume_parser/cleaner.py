@@ -11,12 +11,12 @@ class ResumeCleaner:
         if not text:
             return ""
 
-        text = text.lower()
+        text = text.strip()
 
         text = text.replace("\t", " ")
 
         text = re.sub(
-            r"[^a-z0-9\n\s@.+#/-]",
+            r"[^A-Za-z0-9\n\s@.+#/-]",
             " ",
             text
         )

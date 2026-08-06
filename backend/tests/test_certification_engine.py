@@ -1,21 +1,63 @@
-from backend.resume_parser.parser import ResumeParser
-
 from backend.certification_engine.certification_engine import CertificationEngine
-
-parser = ResumeParser()
 
 engine = CertificationEngine()
 
-resume = parser.parse(
+resume = {
 
-    "Data/Resumes/resume_pdfs/resume.pdf"
+    "certifications": [
+
+        "IBM Data Science",
+
+        "NPTEL Java Programming",
+
+        "AWS Cloud Practitioner"
+
+    ]
+
+}
+
+job = {
+
+    "certifications": [
+
+        "IBM Data Science",
+
+        "Microsoft Azure Fundamentals",
+
+        "AWS Cloud Practitioner"
+
+    ]
+
+}
+
+result = engine.analyze(
+
+    resume,
+
+    job
 
 )
 
-result = engine.extract(resume)
+print("=" * 60)
+print("CERTIFICATION ENGINE TEST")
+print("=" * 60)
 
-print("\nDetected Certifications\n")
+print()
 
-for certification in result["certifications"]:
+print("Certification Match")
+print(result["certification_match"])
 
-    print(certification)
+print()
+
+print("Matched Certifications")
+print(result["matched_certifications"])
+
+print()
+
+print("Missing Certifications")
+print(result["missing_certifications"])
+
+print()
+
+print("Certification Score")
+print(result["certification_score"])

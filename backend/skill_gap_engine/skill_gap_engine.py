@@ -1,37 +1,67 @@
-from backend.skill_gap_engine.skill_gap_analyzer import SkillGapAnalyzer
-
-from backend.skill_gap_engine.skill_gap_validator import SkillGapValidator
-
-
 class SkillGapEngine:
 
     def __init__(self):
+        pass
 
-        self.analyzer = SkillGapAnalyzer()
+    def analyze_skill_gap(self, matching_result):
 
-        self.validator = SkillGapValidator()
+        missing_skills = matching_result.get(
 
+            "missing_skills",
 
-    def analyze(
-
-        self,
-
-        candidate_profile,
-
-        job_description
-
-    ):
-
-        result = self.analyzer.analyze(
-
-            candidate_profile,
-
-            job_description
+            []
 
         )
 
-        return self.validator.validate(
+        priority = {}
 
-            result
+        for skill in missing_skills:
+
+            priority[skill] = "High"
+
+        recommendations = []
+
+        for skill in missing_skills:
+
+            recommendations.append(
+
+                "Learn " + skill
+
+            )
+
+        matched_skills = matching_result.get(
+
+            "matched_skills",
+
+            []
 
         )
+        total_skills = len(matched_skills) + len(missing_skills)
+
+        if total_skills == 0:
+
+            gap_percentage = 0
+
+        else:
+
+            gap_percentage = (
+
+                len(missing_skills)
+
+                /
+
+                total_skills
+
+            ) * 100
+
+        return {
+
+            "gap_percentage": round(gap_percentage, 2),
+
+            "missing_skills": missing_skills,
+
+            "priority": priority,
+
+            "recommendations": recommendations
+
+        }

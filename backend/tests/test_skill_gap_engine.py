@@ -2,44 +2,56 @@ from backend.skill_gap_engine.skill_gap_engine import SkillGapEngine
 
 engine = SkillGapEngine()
 
-candidate = {
+matching_result = {
 
-    "skills": {
+    "match_score": 82.5,
 
-        "normalized_skills":[
+    "matched_skills": [
 
-            "Python",
+        "Python",
 
-            "SQL",
+        "SQL",
 
-            "Tableau"
+        "Pandas"
 
-        ]
+    ],
 
-    }
+    "missing_skills": [
+
+        "Power BI",
+
+        "Machine Learning"
+
+    ]
 
 }
 
-job_description = """
+result = engine.analyze_skill_gap(
 
-Need Python developer.
-
-Must know SQL.
-
-Docker
-
-AWS
-
-Machine Learning
-
-"""
-
-result = engine.analyze(
-
-    candidate,
-
-    job_description
+    matching_result
 
 )
 
-print(result)
+print("=" * 60)
+
+print("SKILL GAP ENGINE TEST")
+
+print("=" * 60)
+
+print()
+
+print("Gap Percentage")
+
+print(result["gap_percentage"])
+
+print()
+
+print("Priority")
+
+print(result["priority"])
+
+print()
+
+print("Recommendations")
+
+print(result["recommendations"])

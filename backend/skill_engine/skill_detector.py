@@ -1,33 +1,30 @@
 import re
 
-from backend.skill_engine.skill_loader import SkillLoader
-
 
 class SkillDetector:
 
     def __init__(self):
 
-        self.loader = SkillLoader()
+        pass
 
-        self.skills = self.loader.load(
-            "backend/knowledgebase/skills.csv"
-        )
+    def detect(self, text, skills):
 
+        if not text:
 
-    def detect(self, resume_text):
+            return []
 
-        detected_skills = []
+        detected = []
 
-        resume_text = resume_text.lower()
+        text = text.lower()
 
-        for skill in self.skills:
-            if len(skill) <= 1:
-                continue
-        
+        for skill in skills:
+
             pattern = r"\b" + re.escape(skill.lower()) + r"\b"
 
-            if re.search(pattern, resume_text, re.IGNORECASE):
+            if re.search(pattern, text):
 
-                detected_skills.append(skill)
+                detected.append(skill)
 
-        return sorted(list(set(detected_skills)))
+        return sorted(
+            list(set(detected))
+        )

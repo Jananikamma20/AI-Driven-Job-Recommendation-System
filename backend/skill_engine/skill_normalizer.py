@@ -2,66 +2,22 @@ class SkillNormalizer:
 
     def __init__(self):
 
-        self.mapping = {
-
-            "ml": "Machine Learning",
-            "machine learning": "Machine Learning",
-
-            "ai": "Artificial Intelligence",
-            "artificial intelligence": "Artificial Intelligence",
-
-            "dl": "Deep Learning",
-            "deep learning": "Deep Learning",
-
-            "py": "Python",
-            "python": "Python",
-
-            "js": "JavaScript",
-            "javascript": "JavaScript",
-
-            "tf": "TensorFlow",
-            "tensor flow": "TensorFlow",
-            "tensorflow": "TensorFlow",
-
-            "scikit learn": "Scikit-learn",
-            "scikit-learn": "Scikit-learn",
-
-            "sql server": "SQL",
-            "mysql": "MySQL",
-            "postgresql": "PostgreSQL"
-        }
-
+        pass
 
     def normalize(self, skills):
+
+        if not skills:
+
+            return []
 
         normalized = []
 
         for skill in skills:
 
-            key = skill.lower().strip()
-
-            if key in self.mapping:
-
-                normalized.append(
-
-                    self.mapping[key]
-
-                )
-
-            else:
-
-                normalized.append(
-
-                    skill
-
-                )
-
-        return sorted(
-
-            list(
-
-                set(normalized)
-
+            normalized.append(
+                skill.strip().lower()
             )
 
+        return sorted(
+            list(set(normalized))
         )

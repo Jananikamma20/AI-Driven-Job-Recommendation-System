@@ -1,44 +1,111 @@
-from backend.pipeline.resume_pipeline import ResumePipeline
-
-from backend.job_engine.job_engine import JobEngine
-
 from backend.recommendation_engine.recommendation_engine import RecommendationEngine
 
+engine = RecommendationEngine()
 
-resume_pipeline = ResumePipeline()
+resume = {
 
-job_engine = JobEngine()
+    "skills": [
 
-recommendation_engine = RecommendationEngine()
+        "Python",
 
-candidate = resume_pipeline.process_resume(
+        "SQL",
 
-    "Data/Resumes/resume_pdfs/resume.pdf"
+        "Pandas"
+
+    ],
+
+    "degrees": [
+
+        "B.Tech"
+
+    ],
+
+    "experience": [
+
+        "2-4 years"
+
+    ],
+
+    "certifications": [
+
+        "IBM Data Science"
+
+    ],
+
+    "projects": [
+
+        "Stock Analysis Dashboard"
+
+    ]
+
+}
+
+job = {
+
+    "title": "Data Analyst",
+
+    "company": "Google",
+
+    "skills": [
+
+        "Python",
+
+        "SQL",
+
+        "Power BI",
+
+        "Machine Learning"
+
+    ],
+
+    "degrees": [
+
+        "B.Tech"
+
+    ],
+
+    "experience": [
+
+        "2-4 years"
+
+    ],
+
+    "certifications": [
+
+        "IBM Data Science"
+
+    ],
+
+    "description": """
+
+    Looking for candidates with experience in
+
+    Stock Analysis Dashboard,
+
+    Power BI,
+
+    Machine Learning.
+
+    """
+
+}
+
+result = engine.analyze(
+
+    resume,
+
+    job
 
 )
 
-jobs = job_engine.load_jobs(
+print("=" * 60)
+print("RECOMMENDATION ENGINE TEST")
+print("=" * 60)
 
-    "Data/Jobs/jobs_10000.csv"
+for key, value in result.items():
 
-)
+    print()
 
-result = recommendation_engine.recommend(
+    print(key.upper())
 
-    candidate["candidate_profile"]["candidate_profile"],
-
-    jobs,
-
-    top_k=5
-
-)
-
-print("\nTOP RECOMMENDED JOBS\n")
-
-for recommendation in result["recommended_jobs"]:
-
-    print("=" * 60)
-
-    print("Score :", recommendation["score"])
-
-    print(recommendation["job"])
+    print(value)

@@ -5,22 +5,16 @@ class SkillLoader:
 
     def __init__(self):
 
-        self.skills = []
+        self.skills = self.load_skills()
 
-    def load(self, csv_path):
+    def load_skills(self):
 
-        dataframe = pd.read_csv(csv_path)
-
-        self.skills = (
-
-            dataframe["skill"]
-
-            .dropna()
-
-            .astype(str)
-
-            .tolist()
-
+        df = pd.read_csv(
+            "Data/KnowledgeBase/Skills/skills.csv"
         )
 
-        return self.skills
+        return set(
+            df["skill_name"]
+            .dropna()
+            .astype(str)
+        )

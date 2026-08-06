@@ -1,28 +1,59 @@
-from backend.resume_parser.parser import ResumeParser
 from backend.education_engine.education_engine import EducationEngine
-
-parser = ResumeParser()
 
 engine = EducationEngine()
 
-resume = parser.parse(
-    "Data/Resumes/resume_pdfs/ENGINEERING/54227873.pdf"
+resume = {
+
+    "degrees": [
+
+        "B.Tech",
+
+        "MCA"
+
+    ]
+
+}
+
+job = {
+
+    "degrees": [
+
+        "B.Tech",
+
+        "MBA"
+
+    ]
+
+}
+
+result = engine.analyze(
+
+    resume,
+
+    job
+
 )
 
-result = engine.extract(resume)
+print("=" * 60)
+print("EDUCATION ENGINE TEST")
+print("=" * 60)
 
-print("\n==============================")
-print("DETECTED DEGREES")
-print("==============================")
+print()
 
-for degree in result["detected_degrees"]:
+print("Education Match")
+print(result["education_match"])
 
-    print(degree)
+print()
 
-print("\n==============================")
-print("NORMALIZED DEGREES")
-print("==============================")
+print("Matched Degrees")
+print(result["matched_degrees"])
 
-for degree in result["normalized_degrees"]:
+print()
 
-    print(degree)
+print("Missing Degrees")
+print(result["missing_degrees"])
+
+print()
+
+print("Education Score")
+print(result["education_score"])
