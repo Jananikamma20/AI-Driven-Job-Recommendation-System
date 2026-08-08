@@ -13,8 +13,45 @@ class SkillLoader:
             "Data/KnowledgeBase/Skills/skills.csv"
         )
 
-        return set(
-            df["skill_name"]
-            .dropna()
-            .astype(str)
-        )
+        skills = set()
+
+        # -----------------------------------------
+        # Main skill name
+        # -----------------------------------------
+
+        if "skill_name" in df.columns:
+
+            skills.update(
+                df["skill_name"]
+                .dropna()
+                .astype(str)
+                .str.strip()
+            )
+
+        # -----------------------------------------
+        # Actual skill / normalized skill column
+        # -----------------------------------------
+
+        if "skill" in df.columns:
+
+            skills.update(
+                df["skill"]
+                .dropna()
+                .astype(str)
+                .str.strip()
+            )
+
+        # -----------------------------------------
+        # Abbreviations / aliases
+        # -----------------------------------------
+
+        if "abbreviation" in df.columns:
+
+            skills.update(
+                df["abbreviation"]
+                .dropna()
+                .astype(str)
+                .str.strip()
+            )
+
+        return skills

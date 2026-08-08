@@ -1,19 +1,111 @@
+import re
 class EducationEngine:
 
     def __init__(self):
-
         pass
 
-    # ---------------------------------
-    # Compare Resume and Job Degrees
-    # ---------------------------------
+    # =====================================================
+    # EXTRACT EDUCATION FROM RESUME TEXT
+    # =====================================================
+
+    def extract(self, text):
+
+        if not text:
+
+            return {
+                "degrees": [],
+                "normalized_degrees": []
+            }
+
+        degree_patterns = {
+
+            "b.tech": [
+                r"\bb\.?tech\b",
+                r"\bbachelor\s+of\s+technology\b"
+            ],
+
+            "b.e": [
+                r"\bb\.?e\.?\b",
+                r"\bbachelor\s+of\s+engineering\b"
+            ],
+
+            "b.sc": [
+                r"\bb\.?sc\.?\b",
+                r"\bbachelor\s+of\s+science\b"
+            ],
+
+            "b.com": [
+                r"\bb\.?com\.?\b",
+                r"\bbachelor\s+of\s+commerce\b"
+            ],
+
+            "m.tech": [
+                r"\bm\.?tech\b",
+                r"\bmaster\s+of\s+technology\b"
+            ],
+
+            "m.e": [
+                r"\bm\.e\.?\b",
+                r"\bmaster\s+of\s+engineering\b"
+            ],
+
+            "m.sc": [
+                r"\bm\.?sc\.?\b",
+                r"\bmaster\s+of\s+science\b"
+            ],
+
+            "mba": [
+                r"\bmba\b",
+                r"\bmaster\s+of\s+business\s+administration\b"
+            ],
+
+            "ph.d": [
+                r"\bph\.?d\b",
+                r"\bdoctor\s+of\s+philosophy\b"
+            ]
+        }
+
+        degrees = []
+
+        for normalized_name, patterns in degree_patterns.items():
+
+            for pattern in patterns:
+
+                if re.search(
+                    pattern,
+                    text,
+                    flags=re.IGNORECASE
+                ):
+
+                    degrees.append(
+                        normalized_name
+                    )
+
+                    break
+
+        degrees = sorted(
+            list(set(degrees))
+        )
+
+        return {
+
+            "degrees": degrees,
+
+            "normalized_degrees": degrees
+
+        }
+
+    # =====================================================
+    # COMPARE RESUME AND JOB DEGREES
+    # =====================================================
+
     def compare_education(
 
-            self,
+        self,
 
-            resume_degrees,
+        resume_degrees,
 
-            job_degrees
+        job_degrees
 
     ):
 
@@ -21,13 +113,17 @@ class EducationEngine:
 
             return {
 
-                "education_match": False,
+                "education_match":
+                    False,
 
-                "matched_degrees": [],
+                "matched_degrees":
+                    [],
 
-                "missing_degrees": job_degrees,
+                "missing_degrees":
+                    job_degrees,
 
-                "education_score": 0
+                "education_score":
+                    0
 
             }
 
@@ -35,19 +131,23 @@ class EducationEngine:
 
             return {
 
-                "education_match": True,
+                "education_match":
+                    True,
 
-                "matched_degrees": [],
+                "matched_degrees":
+                    [],
 
-                "missing_degrees": [],
+                "missing_degrees":
+                    [],
 
-                "education_score": 100
+                "education_score":
+                    100
 
             }
 
         resume_set = {
 
-            degree.lower()
+            str(degree).lower().strip()
 
             for degree in resume_degrees
 
@@ -55,7 +155,7 @@ class EducationEngine:
 
         job_set = {
 
-            degree.lower()
+            str(degree).lower().strip()
 
             for degree in job_degrees
 
@@ -64,9 +164,7 @@ class EducationEngine:
         matched = list(
 
             resume_set.intersection(
-
                 job_set
-
             )
 
         )
@@ -80,9 +178,7 @@ class EducationEngine:
         score = (
 
             len(matched)
-
             /
-
             len(job_set)
 
         ) * 100
@@ -90,33 +186,33 @@ class EducationEngine:
         return {
 
             "education_match":
-
-            len(matched) > 0,
+                len(matched) > 0,
 
             "matched_degrees":
-
-            sorted(matched),
+                sorted(matched),
 
             "missing_degrees":
-
-            sorted(missing),
+                sorted(missing),
 
             "education_score":
-
-            round(score, 2)
+                round(
+                    score,
+                    2
+                )
 
         }
 
-    # ---------------------------------
-    # Complete Education Analysis
-    # ---------------------------------
+    # =====================================================
+    # COMPLETE EDUCATION ANALYSIS
+    # =====================================================
+
     def analyze(
 
-            self,
+        self,
 
-            resume,
+        resume,
 
-            job
+        job
 
     ):
 

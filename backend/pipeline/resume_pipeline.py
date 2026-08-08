@@ -28,7 +28,20 @@ class ResumePipeline:
 
     def process_resume(self, file_path):
 
-        cleaned_text = self.parser.parse(file_path)
+        parsed_result = self.parser.parse(file_path)
+
+        if isinstance(parsed_result, dict):
+
+            cleaned_text = (
+                parsed_result.get("cleaned_text")
+                or parsed_result.get("text")
+                or parsed_result.get("raw_text")
+                or ""
+            )
+
+        else:
+
+            cleaned_text = parsed_result
 
         experience = self.experience_engine.extract(
             cleaned_text

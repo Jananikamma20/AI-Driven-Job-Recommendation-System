@@ -16,11 +16,17 @@ class SkillEngine:
 
         self.matcher = SkillMatcher()
 
-    # ---------------------------------
-    # Detect Skills from Resume Text
-    # ---------------------------------
+    # =====================================================
+    # DETECT SKILLS FROM RESUME TEXT
+    # =====================================================
 
-    def detect_skills(self, text):
+    def detect_skills(
+
+        self,
+
+        text
+
+    ):
 
         return self.detector.detect(
 
@@ -30,17 +36,51 @@ class SkillEngine:
 
         )
 
-    # ---------------------------------
-    # Analyze Resume & Job Skills
-    # ---------------------------------
+    # =====================================================
+    # EXTRACT SKILLS FROM RESUME
+    # =====================================================
+
+    def extract(
+
+        self,
+
+        text
+
+    ):
+
+        detected_skills = self.detect_skills(
+
+            text
+
+        )
+
+        normalized_skills = self.normalizer.normalize(
+
+            detected_skills
+
+        )
+
+        return {
+
+            "detected_skills":
+                detected_skills,
+
+            "normalized_skills":
+                normalized_skills
+
+        }
+
+    # =====================================================
+    # ANALYZE RESUME AND JOB SKILLS
+    # =====================================================
 
     def analyze(
 
-            self,
+        self,
 
-            resume,
+        resume,
 
-            job
+        job
 
     ):
 
@@ -80,22 +120,22 @@ class SkillEngine:
 
             "total_resume_skills":
 
-            len(resume_skills),
+                len(resume_skills),
 
             "total_job_skills":
 
-            len(job_skills),
+                len(job_skills),
 
             "matched_skills":
 
-            result["matched_skills"],
+                result["matched_skills"],
 
             "missing_skills":
 
-            result["missing_skills"],
+                result["missing_skills"],
 
             "skill_score":
 
-            result["skill_score"]
+                result["skill_score"]
 
         }

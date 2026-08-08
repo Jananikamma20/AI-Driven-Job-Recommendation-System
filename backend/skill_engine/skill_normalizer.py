@@ -15,7 +15,7 @@ class SkillNormalizer:
         for skill in skills:
 
             normalized.append(
-                skill.strip().lower()
+                skill.strip()
             )
 
         return sorted(

@@ -1,19 +1,102 @@
 class CertificationEngine:
 
     def __init__(self):
-
         pass
 
-    # ---------------------------------
-    # Compare Resume and Job Certifications
-    # ---------------------------------
+    # =====================================================
+    # EXTRACT CERTIFICATIONS FROM RESUME TEXT
+    # =====================================================
+
+    def extract(
+
+        self,
+
+        text
+
+    ):
+
+        if not text:
+
+            return {
+
+                "certifications": []
+
+            }
+
+        certification_keywords = [
+
+            "ibm data science",
+
+            "aws certified",
+
+            "aws",
+
+            "azure",
+
+            "microsoft certified",
+
+            "google cloud",
+
+            "google certified",
+
+            "oracle certified",
+
+            "cisco certified",
+
+            "ccna",
+
+            "pmp",
+
+            "comptia",
+
+            "data analyst certification",
+
+            "python certification",
+
+            "machine learning certification"
+
+        ]
+
+        text_lower = text.lower()
+
+        certifications = []
+
+        for certification in certification_keywords:
+
+            if certification in text_lower:
+
+                certifications.append(
+
+                    certification
+
+                )
+
+        certifications = sorted(
+
+            list(
+                set(certifications)
+            )
+
+        )
+
+        return {
+
+            "certifications":
+                certifications
+
+        }
+
+    # =====================================================
+    # COMPARE RESUME AND JOB CERTIFICATIONS
+    # =====================================================
+
     def compare_certifications(
 
-            self,
+        self,
 
-            resume_certifications,
+        resume_certifications,
 
-            job_certifications
+        job_certifications
 
     ):
 
@@ -21,13 +104,17 @@ class CertificationEngine:
 
             return {
 
-                "certification_match": False,
+                "certification_match":
+                    False,
 
-                "matched_certifications": [],
+                "matched_certifications":
+                    [],
 
-                "missing_certifications": job_certifications,
+                "missing_certifications":
+                    job_certifications,
 
-                "certification_score": 0
+                "certification_score":
+                    0
 
             }
 
@@ -35,38 +122,46 @@ class CertificationEngine:
 
             return {
 
-                "certification_match": True,
+                "certification_match":
+                    True,
 
-                "matched_certifications": [],
+                "matched_certifications":
+                    [],
 
-                "missing_certifications": [],
+                "missing_certifications":
+                    [],
 
-                "certification_score": 100
+                "certification_score":
+                    100
 
             }
 
         resume_set = {
 
-            certification.lower()
+            str(certification)
+            .lower()
+            .strip()
 
-            for certification in resume_certifications
+            for certification
+            in resume_certifications
 
         }
 
         job_set = {
 
-            certification.lower()
+            str(certification)
+            .lower()
+            .strip()
 
-            for certification in job_certifications
+            for certification
+            in job_certifications
 
         }
 
         matched = list(
 
             resume_set.intersection(
-
                 job_set
-
             )
 
         )
@@ -80,9 +175,7 @@ class CertificationEngine:
         score = (
 
             len(matched)
-
             /
-
             len(job_set)
 
         ) * 100
@@ -90,33 +183,33 @@ class CertificationEngine:
         return {
 
             "certification_match":
-
-            len(matched) > 0,
+                len(matched) > 0,
 
             "matched_certifications":
-
-            sorted(matched),
+                sorted(matched),
 
             "missing_certifications":
-
-            sorted(missing),
+                sorted(missing),
 
             "certification_score":
-
-            round(score, 2)
+                round(
+                    score,
+                    2
+                )
 
         }
 
-    # ---------------------------------
-    # Complete Certification Analysis
-    # ---------------------------------
+    # =====================================================
+    # COMPLETE CERTIFICATION ANALYSIS
+    # =====================================================
+
     def analyze(
 
-            self,
+        self,
 
-            resume,
+        resume,
 
-            job
+        job
 
     ):
 
